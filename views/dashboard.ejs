@@ -1,0 +1,230 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+         @font-face {
+        font-family: myFirstFont; /* Name of the font */
+         src: url('./fonts/JungleAdventurer.ttf'); /* Path to font file */   /* Fallback formats */
+         font-weight: normal;
+         font-style: normal;
+        }
+        *{
+            font-family: myFirstFont;
+        }
+         body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+         height: 100vh;
+         background-color: #f0f8ff;
+      }
+      #player-details{
+        position: absolute;
+        display: flex;
+        top: 150px;
+        font-size: 30px;
+        gap: 5px;
+        flex-direction: column;
+        right: 30;
+        z-index: 1;
+      }
+      #name{
+        margin: 0;
+        padding: 0;
+      }
+      #score{
+        margin: 0;
+        padding: 0;
+      }
+      #wins{
+        margin: 0;
+        padding: 0;
+      }
+
+     #maintext{
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: auto;
+        text-align: center;
+        z-index: 10;
+        cursor: pointer;
+     }
+    #welcomemsg{
+        margin: 0;
+        background-color: white;
+        padding: 10px 5px;
+        font-size: 50px;
+        background-color: white;
+        color: #083e1e;
+    }
+    #playbtn{
+        text-decoration: none;
+        background-color: white;
+        padding: 5px 5px;
+        font-size: 50px;
+        width: 100px;
+        background-color: #1d1d1d;
+        color: #ffffff;
+    }
+    #logoutbtn{
+      text-decoration: none;
+        background-color: white;
+        padding: 5px 5px;
+        font-size: 30px;
+        width: 100px;
+        background-color: #004d1a;
+        color: #ffffff;
+    }
+    #toggleButton{
+        text-decoration: none;
+        background-color: white;
+        padding: 5px 5px;
+        font-size: 30px;
+        width: 80px;
+        background-color: white;
+        color: #083e1e;
+        border: none;
+        cursor: pointer;
+    }
+    
+
+.tree {
+  position: absolute;
+  left: -350px; /* Start hidden (outside the viewport) */
+  width: 25%;
+  height: 100%;
+  background: url('./forest_layer/tree.png') no-repeat center center; /* Replace 'tree.png' with your image path */
+  background-size: 100% 100%;
+  transition: left 0.5s ease; /* Smooth slide-in effect */
+}
+
+.tree.active {
+  left: -100px; /* Slide to this position when active */
+    }
+
+    .leaves{
+        position: absolute;
+        width: 100%;
+        height: 450px;
+        top: 0;
+        background: url('./forest_layer/layer-4.png') no-repeat center center;
+        background-size: 100% 100%;
+    }
+    .soil{
+      display: none;
+        position: absolute;
+        width: 100%;
+        height: 55%;
+        bottom: 0;
+        background: url('./forest_layer/layer-5.png') no-repeat center center;
+        background-size: 100% 100%;
+    }
+    .backtree{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        background: url('./forest_layer/layer-1.png') no-repeat center center;
+        background-size: 100% 100%;
+    }
+    .btn{
+        
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+        position: absolute;
+        left: 15;
+        top: 140px;
+        z-index: 10;
+    }
+    #btn1,#btn2{
+        padding: 5px;
+        text-decoration: none;
+        margin-top: 20px;
+        width: 100px;
+        height: 50px;
+        font-size: 35px;
+        color: white;
+        background-color: 45230b;
+        border: none;
+    }
+    #btn1,#btn2{
+        margin-left: -150px;
+        opacity: 0;
+        transition: opacity,margin-left 0.4s ease-in-out;
+    }
+    #btn1.show,#btn2.show{
+        margin-left: 0;
+        opacity: 1;
+    }
+    </style>
+</head>
+<body>
+  <!--
+    <div id="player-details">
+        <p id="name">Username</p>
+        <p id="score">Score: <%= user.username %></p>
+        <p id="wins">Wins: 89</p>-->
+    </div>
+    <div id="maintext">
+        <p id="welcomemsg">Welcome <%= user.username %></p>
+        <a id="playbtn" href="/index">Play</a>
+        <button id="toggleButton">Menu</button>
+        <a id="logoutbtn" href="/logout">Logout</a>
+    </div>
+    <div id="buttons" class="btn">
+        <a class="hidden" id="btn2" href="/store">Store</a>
+        <a class="hidden" id="btn1" href="/rank">Rank</a>
+    </div>
+    <div id="backtree" class="backtree"></div>
+    <div id="tree" class="tree"></div>
+    <div id="leaves" class="leaves"></div>
+    <div id="soil" class="soil"></div>
+    
+    
+        
+    
+</body>
+<script>
+   const toggleButton = document.getElementById("toggleButton");
+   const tree = document.getElementById("tree");
+   const option = document.getElementById("options");
+
+toggleButton.addEventListener("click", () => {
+  // Toggle the "active" class to slide the tree in or out
+  tree.classList.toggle("active");
+  const fadeButton1 = document.getElementById('btn1');
+  const fadeButton2 = document.getElementById('btn2');
+  if (fadeButton1.style.display === 'none' || fadeButton1.classList.contains('hidden')) {
+    fadeButton1.style.display = 'inline-block';
+    fadeButton2.style.display = 'inline-block';  // Ensure the button is displayed first
+    setTimeout(() => {
+      fadeButton1.classList.remove('hidden');  // Remove 'hidden' class to allow fade-in
+      fadeButton1.classList.add('show');       // Add 'show' class for fade-in effect
+    }, 100); 
+    setTimeout(() => {
+      fadeButton2.classList.remove('hidden');  // Remove 'hidden' class to allow fade-in
+      fadeButton2.classList.add('show');       // Add 'show' class for fade-in effect
+    }, 100); // Small timeout to let display property change before fading in
+  } else {
+    fadeButton1.classList.remove('show');
+    fadeButton2.classList.remove('show');  // Fade out
+    setTimeout(() => {
+      fadeButton1.classList.add('hidden');  // Completely hide the button after fade-out
+    }, 500);
+    setTimeout(() => {
+      fadeButton2.classList.add('hidden');  // Completely hide the button after fade-out
+    }, 500);  // Timeout to allow fade effect to finish before hiding
+  }
+});
+</script>
+</html>

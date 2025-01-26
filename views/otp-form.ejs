@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         @font-face {
+        font-family: myFirstFont; /* Name of the font */
+         src: url('./fonts/JungleAdventurer.ttf'); /* Path to font file */   /* Fallback formats */
+         font-weight: normal;
+         font-style: normal;
+        }
+        *{
+            font-family: myFirstFont;
+            font-weight: 100;
+        }
+        #container{
+            display: flex;
+            height: 100vh;
+            align-items: center;
+        }
+        #main{
+            display: flex;
+            flex-direction: column;
+            margin-inline: auto;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            background-color: rgb(22, 22, 22);
+            width: 300px;
+            height: 400px;
+        }
+        #heading{
+            font-weight: 100;
+            margin-top: -40px;
+        }
+
+        #inputs{
+            display: flex;
+            gap: 20px;
+            flex-direction: column;
+            text-decoration: none;
+        }
+      
+        #password,#otp,#username{
+            font-size: 30px;
+            width: 250px;
+            height: 40px;
+        }
+        
+        #btn{
+            
+            margin-inline: auto;
+            text-align: center;
+            margin-inline: auto;
+            font-size: 25px;
+            width: 90px;
+            color: rgb(22, 22, 22);
+            
+        }
+       
+    </style>
+</head>
+<body>
+    <form action="/verify-otp" method="POST">
+    <div id="container">
+        <div id="main">
+        <h1 id="heading">VERIFY</h1>
+        <div id="inputs">
+            <input type="hidden" name="email" value="<%= email %>" />
+            <input type="text" name="otp" id="otp" placeholder="Enter OTP" required />
+            <input type="text" name="username" id="username" oninput="this.value = this.value.toUpperCase();" placeholder="Enter Username" required />
+            <input type="password" name="password" id="password" placeholder="Enter Password" required />
+            <button type="submit" id="btn">Verify OTP</button>
+    </div>
+    </div>
+    </div>
+</form>
+</body>
+</html>
+  

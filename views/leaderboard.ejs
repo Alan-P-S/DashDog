@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <style>
+         @font-face {
+        font-family: myFirstFont; /* Name of the font */
+         src: url('./fonts/JungleAdventurer.ttf'); /* Path to font file */   /* Fallback formats */
+         font-weight: normal;
+         font-style: normal;
+        }
+        *{
+            font-family: myFirstFont;
+            font-weight: 100;
+            padding: 0;
+            margin: 0;
+        }
+        #heading{
+            margin-top: 20px;
+        }
+        #container{
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            align-items: center;
+            background: url('./forest_layer/layer-1.png') no-repeat center center;
+            background-size: 100% 100%;
+        }
+       
+        table {
+            margin-top: 0px;
+            width: 40%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            text-align: left;
+            color: white;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #575757;
+        }
+        th {
+            color: rgb(255, 255, 124);
+            background-color: #292929;
+        }
+        #dashbtn{
+            margin-inline: auto;
+            text-align: center;
+            padding: 10px;
+            display: flex;
+            font-size: 25px;
+            width: 110px;
+            height: 25px;
+            background-color: #292929;
+            color: white;
+            text-decoration: none;
+        }
+        #p{
+            background-color: rgb(255, 255, 255);
+            padding: 10px 10px;
+            color: rgb(12, 12, 12);
+            margin-top: 10px;
+            transition: 0.5s ease;
+            cursor: pointer;
+        }
+        #p:hover{
+            background-color: rgb(12, 12, 12);
+            color: white;
+        }
+        #store{
+            text-align: center;
+            color: rgb(255, 51, 0);
+        }
+    </style>
+</head>
+<body>
+    <div id="tree"></div>
+    <div id="container">
+    <h1 style="text-align: center;" id="heading">Leaderboard</h1>
+    <table id="leaderboard">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Score</th>
+                <th>Wins</th>
+                <th>Losses</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted dynamically -->
+        </tbody>
+    </table>
+
+    <a href="/dashboard" id="dashbtn">Dashboard</a>
+    <p id="p">Rank points will be added into your account.<br>You can exchange Rank points for buying items<br>from the store.<br><span id="store">Store will open soon</span></p>
+    </div>
+    <script>
+        // Fetch leaderboard data
+        let i=1;
+        fetch('/leaderboard')
+            .then((response) => response.json())
+            .then((data) => {
+                const tableBody = document.getElementById('leaderboard').querySelector('tbody');
+                tableBody.innerHTML = ''; // Clear existing rows
+
+                data.forEach((row) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${i}</td>
+                        <td>${row.username}</td>
+                        <td>${row.score}</td>
+                        <td>${row.win}</td>
+                        <td>${row.lose}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                    i++;
+                });
+            })
+            .catch((error) => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>

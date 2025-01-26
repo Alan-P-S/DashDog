@@ -1,0 +1,21 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Live Score</h1>
+    <h2 id="scoreDisplay"></h2>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+     const socket = io();
+        socket.on('updateScore', (score) => {
+            console.log('Updated score received from server:', score);
+
+          // Optionally update the UI or game state
+         document.getElementById('scoreDisplay').textContent = `Score: ${score}`;
+        });
+</script>
+</html>

@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "name": "Hero Default",
+        "spriteSheet": "default-sprite.png",
+        "price": 0
+    },
+    {
+        "id": 2,
+        "name": "Knight",
+        "spriteSheet": "knight-sprite.png",
+        "price": 100
+    },
+    {
+        "id": 3,
+        "name": "Mage",
+        "spriteSheet": "mage-sprite.png",
+        "price": 150
+    }
+]
