@@ -15,7 +15,7 @@ router.get('/',(req,res)=>{
       } else {
         console.log('Keep-alive query succeeded');
       }
-    }
+    });
     res.render('signup');
 });
 
