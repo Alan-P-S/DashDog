@@ -8,18 +8,14 @@ const db = require('./config/database');
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const flash = require('connect-flash');
 
 // Middleware to handle flash messages
-app.use(flash());
+
 
 // Middleware to make flash messages available globally in templates
-app.use((req, res, next) => {
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
-    next();
-});
+
 
 app.use(
     session({

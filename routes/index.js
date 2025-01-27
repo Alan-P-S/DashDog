@@ -5,7 +5,7 @@ const db = require('../config/database');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const flash = require('connect-flash');
+
 
 
 router.get('/',(req,res)=>{
@@ -53,7 +53,7 @@ router.post('/submit-score', async (req, res) => {
         }
         if (score < 50) {
             await db.promise().query('UPDATE gameinfo SET lose = lose + 1 WHERE username = ?', [username]);
-            console.log('Win updated');
+            console.log('lose updated');
         }
 
         res.status(200).send('Score processed successfully');
@@ -86,7 +86,8 @@ router.post('/signup', (req, res) => {
     db.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
         if (err) return res.status(500).send('Database error');
         if (results.length > 0) {
-            return res.status(400).send('<h1 align="center">Email already exists</h1>');
+            //email already exist
+            return res.redirect('error1');
         }
 
         // Generate OTP
@@ -146,7 +147,7 @@ router.post('/verify-otp', async (req, res) => {
 
         // Validate OTP and its expiration
         if (user.otp !== otp || new Date() > new Date(user.otp_expiry)) {
-            return res.status(400).send('Invalid or expired OTP');
+            return res.redirect('error1');;
         }
 
         // Hash the password
@@ -158,7 +159,7 @@ router.post('/verify-otp', async (req, res) => {
                 [username, hashedPassword, email],
                 (err) => {
                     if (err) return res.status(500).send('Error saving user data');
-                    res.status(200).send('User registered successfully');
+                    res.redirect('regsucess');
                 }
             );
         } catch (hashError) {
@@ -224,19 +225,22 @@ router.post('/login', (req, res) => {
                     req.session.user = user;
                     return res.redirect('/dashboard');
                 } else {
-                    return res.send('Invalid credentials');
+                    return res.redirect('/error1');
                 }
             });
         } else {
-            req.flash('error', 'User not found');
-            return res.redirect('/error');
+
+            return res.redirect('/error1');
         }
     });
 });
 
-router.get('/error',(req,res)=>{
-    const errorMessage = req.flash('error');
-    res.render('error',{ error: errorMessage });
+router.get('/error1',(req,res)=>{
+    res.render('error1');
+})
+
+router.get('/regsucess',(req,res)=>{
+    res.render('regsucess');
 })
 
 router.get('/logout', (req, res) => {
@@ -264,9 +268,10 @@ router.get('/dashboard', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/');
     }
-    console.log(req.session.user)
+   
     res.render('dashboard', { user: req.session.user });
 });
+
 
 
 
@@ -276,8 +281,6 @@ router.get('/index', (req, res) => {
     }
     res.render('index', { user: req.session.user });
 });
-
-
 
 
 module.exports = router;
