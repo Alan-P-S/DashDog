@@ -83,11 +83,19 @@ router.post('/signup', async (req, res) => {
     const { email } = req.body;
 
     // Check if the email exists in the database
+<<<<<<< HEAD
      db.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
         if (err){
             console.log(err);
             return res.status(500).send('Database error');
         } 
+=======
+    db.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Database error');
+        }
+>>>>>>> 4ebfbe5d0f9e7333e6ba94fa8ba8d3628dacd5ff
         if (results.length > 0) {
             //email already exist
             return res.redirect('error1');
