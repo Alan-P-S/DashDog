@@ -208,7 +208,7 @@ router.post('/login', (req, res) => {
     // Check if the user exists in the database
     db.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
         if (err) {
-            console.error('Error during login query:', err);
+            console.log('Error during login query:', err);
             return res.status(500).send('Server error');
         }
 
