@@ -11,7 +11,7 @@ const io = new Server(server);
 const PORT = process.env.PORT || 3000;
 const flash = require('connect-flash');
 require('dotenv').config();
-const db = require('../config/database');
+
 
 // Middleware to handle flash messages
 
@@ -27,6 +27,15 @@ app.use(
     })
 );
 
+setInterval(() => {
+    pool.query('SELECT 1', (err) => {
+      if (err) {
+        console.error('Keep-alive query failed:', err);
+      } else {
+        console.log('Keep-alive query succeeded');
+      }
+    });
+  }, 30000);
 
 // Automatic cleanup of expired OTPs every minute
 setInterval(() => {
