@@ -27,28 +27,6 @@ app.use(
     })
 );
 
-setInterval(() => {
-    db.query('SELECT 1', (err) => {
-      if (err) {
-        console.error('Keep-alive query failed:', err);
-      } else {
-        console.log('Keep-alive query succeeded');
-      }
-    });
-  }, 30000);
-
-// Automatic cleanup of expired OTPs every minute
-setInterval(() => {
-    const currentTime = new Date();
-    
-    db.query('DELETE FROM users WHERE otp_expiry < ?', [currentTime], (err) => {
-        if (err) {
-            console.error('Error cleaning up expired OTPs:', err);
-        } else {
-            console.log('Expired OTPs deleted successfully');
-        }
-    });
-}, 1800 * 1000);  // Runs every minute (adjust interval as needed)
 
 //handle connections
 
