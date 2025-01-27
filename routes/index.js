@@ -9,6 +9,12 @@ const nodemailer = require('nodemailer');
 
 
 router.get('/',(req,res)=>{
+    db.query('SELECT 1', (err) => {
+      if (err) {
+        console.error('Keep-alive query failed:', err);
+      } else {
+        console.log('Keep-alive query succeeded');
+      }
     res.render('signup');
 });
 
