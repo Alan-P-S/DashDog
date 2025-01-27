@@ -79,12 +79,15 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-router.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
     const { email } = req.body;
 
     // Check if the email exists in the database
-    db.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
-        if (err) return res.status(500).send('Database error');
+     db.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
+        if (err){
+            console.log(err);
+            return res.status(500).send('Database error');
+        } 
         if (results.length > 0) {
             //email already exist
             return res.redirect('error1');
@@ -205,7 +208,7 @@ router.post('/login', (req, res) => {
     // Check if the user exists in the database
     db.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
         if (err) {
-            console.error('Error during login query:', err);
+            console.log('Error during login query:', err);
             return res.status(500).send('Server error');
         }
 

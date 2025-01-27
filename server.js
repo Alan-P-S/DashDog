@@ -10,12 +10,13 @@ const server = http.createServer(app);
 const io = new Server(server);
 const PORT = process.env.PORT || 3000;
 const flash = require('connect-flash');
+require('dotenv').config();
+const db = require('../config/database');
 
 // Middleware to handle flash messages
 
 
 // Middleware to make flash messages available globally in templates
-
 
 app.use(
     session({
@@ -25,6 +26,7 @@ app.use(
         cookie: { secure: false } // Set to true for HTTPS
     })
 );
+
 
 // Automatic cleanup of expired OTPs every minute
 setInterval(() => {
