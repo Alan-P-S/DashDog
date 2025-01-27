@@ -28,7 +28,7 @@ app.use(
 );
 
 setInterval(() => {
-    pool.query('SELECT 1', (err) => {
+    db.query('SELECT 1', (err) => {
       if (err) {
         console.error('Keep-alive query failed:', err);
       } else {
